@@ -24,6 +24,9 @@ def verify():
     # print(passvalue.get())
     exec(open('./first.py').read())
 
+def send_otp():
+    pass
+
 def login():
     clear()
     animate()
@@ -45,33 +48,40 @@ def login():
 def guest():
     clear()
     animate()
-    Button(main,text="back", command=login ).pack(pady="8")
+    memvalue = StringVar()
+    mem_id = Label(main, text="Enter the member ID",padx="100",pady="20" , font=("Helvetica",12,"bold"))
+    mem_id.pack()
+    mem_id_entry = Entry(main,textvariable = memvalue)
+    mem_id_entry.pack()
+    Button(main,text="GET OTP", command=send_otp ).pack(pady="30")
+    Button(main,text="back", command=login , ).pack(pady="200")
 
 def animate():
-    canvas = Canvas(main, width=400, height = 400)
+    canvas = Canvas(main, width=600, height = 800)
     canvas.pack()
-    alien1 = canvas.create_oval(20, 260, 80, 320, outline='white',fill='#581845') 
-    alien2 = canvas.create_oval(90, 260, 130, 300, outline='white',fill='#ff5733') 
+    alien1 = canvas.create_oval(270, 260, 330, 320, outline='white',fill='#581845') 
     canvas.pack()
     track = 0
     starttime = int(round(time.time() * 1000))
-    while int(round(time.time() * 1000))-starttime < 800:
+    while int(round(time.time() * 1000))-starttime < 700:
         x = 5
         y = 0
+        sx=3
+        sy=3
         if track == 0:
             for i in range(0,51):
-                time.sleep(0.008)
-                canvas.move(alien1, x, y)
-                canvas.move(alien2, x, y)
+                time.sleep(0.005)
+                canvas.scale(alien1, sx, sy,1.01,1.01)
+                canvas.move(alien1,-sx,-sy)
                 canvas.update()
             track = 1
             
 
         else:
             for i in range(0,51):
-                time.sleep(0.008)
-                canvas.move(alien1, -x, y)
-                canvas.move(alien2, -x, y)
+                time.sleep(0.005)
+                canvas.scale(alien1, -sx, sy,1/(1.01),1/(1.01))
+                canvas.move(alien1,sx,sy)
                 canvas.update()
             track = 0
     
