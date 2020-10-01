@@ -1,19 +1,27 @@
 from tkinter import *
 import random
 import time
+
+otp_timer = 0
 def MemberList(filename):
 
-    my_file = open(filename, "r")
-    content = my_file.read()
-    memlist = content.split(",")
-    my_file.close()
-    i=0
-    colors = ["#1b0816","#d74650","#545275"]
-    for member in memlist:  
+    mem_id = []
+    with open(filename) as f:
+        lines = f.readlines()
         
-        label = Label(sidebar,text=member , justify=LEFT ,bg=colors[i%3],fg="#ffffff",font=("comicsans",10,"italic"))
+    for line in lines:
+        line = line.split(',')
+        mem_id.append([line[0],line[1]])
+
+    label = Label(sidebar,text=("ID  -  resident"), justify=LEFT ,bg="#1b0816",fg="#ffffff",font=("comicsans",10,"italic"))
+    label.pack(fill="x",pady="2")
+
+    for member in mem_id:  
+        
+        label = Label(sidebar,text=(member[0]+" -> "+member[1]), justify=LEFT ,bg="#d74650",fg="#000000",font=("comicsans",10,"bold"))
         label.pack(fill="x",pady="2")
-        i+=1
+        
+
 def clear():
     list = main.pack_slaves()
     for sl in list:
@@ -22,10 +30,40 @@ def clear():
 def verify():
     # print(uservalue.get())
     # print(passvalue.get())
-    exec(open('./first.py').read())
+    pass
+
+
+def check_guest():
+    print(time.time()-otp_timer)
+    if time.time() -otp_timer >120:
+        clear()
+        alert = Label(main, text="TIMEOUT! please try again later",padx="100",pady="20" , fg="#ff0000" ,font=("Helvetica",12,"italic"))
+        alert.pack()
+        Button(main,text="retry", command=login ).pack(pady="30")
+    else:
+
+        clear()
+        alert = Label(main, text="Success - gate opening",padx="100",pady="20" , fg="#ff0000" ,font=("Helvetica",12,"italic"))
+        alert.pack()
+        Button(main,text="back", command=login , ).pack(pady="200")
+        
+    
 
 def send_otp():
-    pass
+    #------WRITE YOUR BACKEND HERE----- and here only!!!!!!
+    clear()
+    global otp_timer
+    otp_timer = time.time()
+    otp = StringVar()
+    alert = Label(main, text="You have 2 mins to type the 6 digit OTP",padx="100",pady="20" , fg="#ff0000" ,font=("Helvetica",12,"italic"))
+    alert.pack()
+    otp_sec = Entry(main,textvariable = otp)
+    otp_sec.pack()
+    Button(main,text="Verify", command=check_guest ).pack(pady="30")
+    Button(main,text="back", command=login , ).pack(pady="200")
+
+
+    
 
 def login():
     clear()
