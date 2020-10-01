@@ -1,6 +1,10 @@
 from tkinter import *
 import random
 import time
+from datetime import datetime
+import blynklib
+
+
 
 otp_timer = 0
 def MemberList(filename):
@@ -28,9 +32,22 @@ def clear():
         sl.destroy()
 
 def verify():
-    # print(uservalue.get())
-    # print(passvalue.get())
-    pass
+    f = open("rowindex.txt", "r")
+    row = f.read()
+    row = row.split("\n")
+    row = row[0]
+    row = int(row)
+    print(row)
+    row +=1
+    f.close()
+    f = open("rowindex.txt", "w")
+    f.write(str(row))
+    f.close()
+    blynk = blynklib.Blynk('PtKubaaapvSqhljNJKWbprRHdI8cenCQ')
+    blynk.run()
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    blynk.virtual_write(1,"add",row,uservalue.get(),current_time )
 
 
 def check_guest():
@@ -68,9 +85,7 @@ def send_otp():
 def login():
     clear()
     animate()
-    uservalue = StringVar()
-    passvalue = StringVar()
-
+    
     userentry = Entry(main,textvariable = uservalue)
     passentry = Entry(main,textvariable = passvalue)
 
@@ -130,6 +145,8 @@ root.geometry("800x600")
 root.title("Home Security")
 root.minsize(800,600)
 root.maxsize(800,600)
+uservalue = StringVar()
+passvalue = StringVar()
 sidebar = Frame(root,bg="#6c3483")
 main = Frame(root)
 sidebar.pack(side=LEFT, fill="y")
@@ -147,7 +164,6 @@ MemberList("member.txt")
 #   USERNAME AND PASSWORD
 
 login()
-
 
 
 root.mainloop()
