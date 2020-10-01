@@ -32,22 +32,28 @@ def clear():
         sl.destroy()
 
 def verify():
-    f = open("rowindex.txt", "r")
-    row = f.read()
-    row = row.split("\n")
-    row = row[0]
-    row = int(row)
-    print(row)
-    row +=1
-    f.close()
-    f = open("rowindex.txt", "w")
-    f.write(str(row))
-    f.close()
-    blynk = blynklib.Blynk('PtKubaaapvSqhljNJKWbprRHdI8cenCQ')
-    blynk.run()
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    blynk.virtual_write(1,"add",row,uservalue.get(),current_time )
+    if True:
+        f = open("rowindex.txt", "r")
+        row = f.read()
+        row = row.split("\n")
+        row = row[0]
+        row = int(row)
+        print(row)
+        row +=1
+        f.close()
+        f = open("rowindex.txt", "w")
+        f.write(str(row))
+        f.close()
+        blynk = blynklib.Blynk('PtKubaaapvSqhljNJKWbprRHdI8cenCQ')
+        blynk.run()
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        blynk.virtual_write(1,"add",row,uservalue.get(),current_time )
+    else:
+        clear()
+        alert = Label(main, text="Login error!!!",padx="100",pady="20" , fg="#ff0000" ,font=("Helvetica",12,"italic"))
+        alert.pack()
+        Button(main,text="back", command=login , ).pack(pady="200")
 
 
 def check_guest():
