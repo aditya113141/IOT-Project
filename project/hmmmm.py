@@ -42,7 +42,7 @@ def fun(ev=None):
                 proc.kill()
             elif proc.name()==program2:
                 proc.kill()
-            elif proc.name()==program1:
+            elif proc.name()==program3:
                 proc.kill()
         while True:
             GPIO.output(pin,1)
