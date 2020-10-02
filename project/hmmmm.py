@@ -3,7 +3,7 @@ import time
 import os
 from sms import *
 import psutil
-pin = 27
+pin = 5
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(4,GPIO.IN, pull_up_down = GPIO.PUD_UP)
